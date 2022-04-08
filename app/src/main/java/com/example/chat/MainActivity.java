@@ -28,10 +28,12 @@ public class MainActivity extends AppCompatActivity {
     DataOutputStream out;
     RecyclerView recyclerView;
     ArrayList<Message> messages = new ArrayList<>();
+    String userName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        userName = getIntent().getStringExtra("userName");
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         editText = findViewById(R.id.editText);
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    recyclerViewInit(message, true);
+                                    recyclerViewInit("/tell "+userName+" "+message, true);
                                 }
                             });
                             out.writeUTF(message);
