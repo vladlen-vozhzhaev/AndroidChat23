@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat">
         <activity
-            android:name=".ChatsActivity"
+            android:name=".RegActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AuthActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,9 +24,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ChatsActivity"
+            android:exported="true"/>
+        <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

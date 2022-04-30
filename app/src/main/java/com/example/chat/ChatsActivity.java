@@ -66,6 +66,7 @@ public class ChatsActivity extends AppCompatActivity {
         public ChatHolder(LayoutInflater inflater, ViewGroup  viewGroup) {
             super(inflater.inflate(R.layout.single_chat, viewGroup, false));
             chatTextView = itemView.findViewById(R.id.chatTextView);
+            chatTextView.setOnClickListener(this);
         }
         public void bind(String userName){
             this.userName = userName;
