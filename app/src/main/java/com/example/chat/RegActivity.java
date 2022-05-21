@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.chat.database.DBMethods;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -41,7 +43,7 @@ public class RegActivity extends AppCompatActivity {
                         String pass = editTextTextPasswordReg.getText().toString();
                         UUID uuid = UUID.randomUUID();
                         try {
-                            Socket socket = new Socket("192.168.1.2", 9178);
+                            Socket socket = new Socket("192.168.1.6", 9178);
                             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                             out.writeUTF("registration//"+name+"//"+phone+"//"+pass+"//"+uuid.toString());
@@ -52,6 +54,8 @@ public class RegActivity extends AppCompatActivity {
                                     if(response.equals("user_exist")){
                                         Toast.makeText(RegActivity.this, "user_exist", Toast.LENGTH_SHORT).show();
                                     }else{
+                                        DBMethods dbMethods = new DBMethods(RegActivity.this);
+                                        dbMethods.addUser(phone, name, uuid.toString(), "0");
                                         Toast.makeText(RegActivity.this, "success", Toast.LENGTH_SHORT).show();
                                     }
                                     onBackPressed();

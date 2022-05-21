@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
+import com.example.chat.database.DBMethods;
+
 public class MainActivity extends AppCompatActivity {
     LinearLayout mainLinerLayout;
     public static boolean isAuth = false;
@@ -12,15 +14,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(savedInstanceState != null)
+        if(savedInstanceState != null) {
             isAuth = savedInstanceState.getBoolean("isAuth");
-
-        mainLinerLayout = findViewById(R.id.mainLinerLayout);
-        if(!isAuth){
-            Auth.showAuth(MainActivity.this, mainLinerLayout);
-        }else{
             Chat.showChatList(MainActivity.this, mainLinerLayout);
         }
+        else{
+            DBMethods dbMethods = new DBMethods(MainActivity.this);
+            String token = dbMethods.getToken();
+            if(token != null && !token.equals("0")){
+                Auth.userAuth(token, MainActivity.this, mainLinerLayout);
+                isAuth = true;
+            }else{
+                Auth.showAuth(MainActivity.this, mainLinerLayout);
+            }
+        }
+        mainLinerLayout = findViewById(R.id.mainLinerLayout);
     }
 
     @Override
