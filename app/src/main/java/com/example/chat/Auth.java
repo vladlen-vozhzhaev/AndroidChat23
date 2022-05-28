@@ -105,7 +105,6 @@ public class Auth {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
         });
         thread.start();

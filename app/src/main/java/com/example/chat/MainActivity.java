@@ -1,8 +1,12 @@
 package com.example.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.example.chat.database.DBMethods;
@@ -10,11 +14,18 @@ import com.example.chat.database.DBMethods;
 public class MainActivity extends AppCompatActivity {
     LinearLayout mainLinerLayout;
     public static boolean isAuth = false;
+    FrameLayout mainFrame;
+    static FragmentManager fm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(savedInstanceState != null) {
+        mainFrame = findViewById(R.id.mainFrame);
+        fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.mainFrame, new StartFragment()).commit();
+
+        /*if(savedInstanceState != null) {
             isAuth = savedInstanceState.getBoolean("isAuth");
             Chat.showChatList(MainActivity.this, mainLinerLayout);
         }
@@ -28,7 +39,12 @@ public class MainActivity extends AppCompatActivity {
                 Auth.showAuth(MainActivity.this, mainLinerLayout);
             }
         }
-        mainLinerLayout = findViewById(R.id.mainLinerLayout);
+        mainLinerLayout = findViewById(R.id.mainLinerLayout);*/
+    }
+
+    public static void changeFragment(Fragment fragment){
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.mainFrame, fragment).commit();
     }
 
     @Override
